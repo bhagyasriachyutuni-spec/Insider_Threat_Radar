@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+/* HEADER */
+.page-header h3 {
+    font-weight: 600;
+}
+
+/* CARD */
+.form-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+/* SECTION TITLE */
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 15px;
+    color: #555;
+}
+
+/* INPUT */
+.form-control {
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+/* BUTTON */
+.btn-primary {
+    border-radius: 25px;
+    padding: 10px;
+    font-weight: 500;
+}
+
+/* RESULT CARD */
+.result-card {
+    margin-top: 25px;
+    border-radius: 18px;
+    padding: 20px;
+    background: #f8f9fb;
+}
+
+/* PROGRESS */
+.progress {
+    height: 8px;
+    border-radius: 10px;
+}
+
+.progress-bar {
+    font-size: 10px;
+}
+
+/* FEATURE BLOCK */
+.feature-box {
+    margin-bottom: 12px;
+}
+
+/* BADGES */
+.badge {
+    padding: 8px 14px;
+    font-size: 13px;
+    border-radius: 20px;
+}
+
+/* SCORE */
+.score {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+</style>
+
+
+<!-- HEADER -->
+<div class="page-header mb-4">
+    <h3>📊 Behavior Risk Prediction</h3>
+    <p class="text-muted">Enter activity data to analyze insider threat behavior</p>
+</div>
+
+
+<!-- FORM -->
+<div class="form-card">
+
+<form method="POST">
+
+    <!-- EMAIL FEATURES -->
+    <div class="section-title">📧 Email Activity</div>
+
+    <input name="emails" placeholder="Total Emails Sent" class="form-control mb-2">
+    <input name="attachments" placeholder="Total Attachments" class="form-control mb-2">
+    <input name="size" placeholder="Average Email Size" class="form-control mb-2">
+    <input name="off_hours" placeholder="Off-Hour Emails" class="form-control mb-2">
+    <input name="weekend" placeholder="Weekend Emails" class="form-control mb-2">
+
+    <!-- PERSONALITY -->
+    <div class="section-title">🧠 Behavioral Traits (OCEAN)</div>
+
+    <input name="O" placeholder="Openness (O)" class="form-control mb-2">
+    <input name="C" placeholder="Conscientiousness (C)" class="form-control mb-2">
+    <input name="E" placeholder="Extraversion (E)" class="form-control mb-2">
+    <input name="A" placeholder="Agreeableness (A)" class="form-control mb-2">
+    <input name="N" placeholder="Neuroticism (N)" class="form-control mb-3">
+
+    <button class="btn btn-primary w-100">
+        Analyze Risk
+    </button>
+
+</form>
+
+</div>
+
+
+<!-- RESULT -->
+{% if result %}
+<div class="result-card">
+
+    <div class="text-center mb-4">
+        <h5>🔍 Prediction Result</h5>
+        <h4 class="fw-bold">{{ result }}</h4>
+        <p class="score">Score: {{ score }}</p>
+
+        {% if level == 'High' %}
+            <span class="badge bg-danger">🚨 High Risk</span>
+        {% elif level == 'Medium' %}
+            <span class="badge bg-warning text-dark">⚠️ Medium Risk</span>
+        {% else %}
+            <span class="badge bg-success">✅ Low Risk</span>
+        {% endif %}
+    </div>
+
+    <hr>
+
+    <!-- 🔥 FEATURE ANALYSIS -->
+    <h6 class="mb-3">📊 Feature Analysis</h6>
+
+    {% set features = {
+        'Emails': request.form.get('emails', 0),
+        'Attachments': request.form.get('attachments', 0),
+        'Size': request.form.get('size', 0),
+        'Off Hours': request.form.get('off_hours', 0),
+        'Weekend': request.form.get('weekend', 0),
+        'O': request.form.get('O', 0),
+        'C': request.form.get('C', 0),
+        'E': request.form.get('E', 0),
+        'A': request.form.get('A', 0),
+        'N': request.form.get('N', 0)
+    } %}
+
+    {% for key, value in features.items() %}
+        {% set val = value|float %}
+
+        <!-- SIMPLE ANOMALY LOGIC -->
+        {% if val > 70 %}
+            {% set color = "bg-danger" %}
+            {% set label = "High Anomaly" %}
+        {% elif val > 40 %}
+            {% set color = "bg-warning" %}
+            {% set label = "Moderate" %}
+        {% else %}
+            {% set color = "bg-success" %}
+            {% set label = "Normal" %}
+        {% endif %}
+
+        <div class="feature-box">
+            <div class="d-flex justify-content-between">
+                <small>{{ key }}</small>
+                <small>{{ val }}</small>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar {{ color }}" 
+                     style="width: {{ val }}%">
+                </div>
+            </div>
+
+            <small class="text-muted">{{ label }}</small>
+        </div>
+
+    {% endfor %}
+
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+<div class="row align-items-center mb-5">
+    <div class="col-md-7">
+        <h2 class="mb-3">AI-Based Insider Threat Detection System</h2>
+        <p class="text-muted">
+            Monitor employee behavior, detect suspicious activity, and prevent security risks using machine learning.
+        </p>
+
+        <div class="mt-4">
+            <a href="/login_user" class="btn btn-primary">Get Started</a>
+            <a href="/login_admin" class="btn btn-outline-dark ms-2">Admin Access</a>
+        </div>
+    </div>
+
+    <div class="col-md-5 text-center">
+        <img src="https://cdn-icons-png.flaticon.com/512/3064/3064197.png" width="180">
+    </div>
+</div>
+
+
+<!-- ABOUT PROJECT -->
+<div class="mb-5">
+    <h4>📌 About the Project</h4>
+    <p class="text-muted">
+        This system detects insider threats by analyzing employee activity patterns such as email usage,
+        attachments, working hours, and behavioral traits. It uses a trained machine learning model to classify users as
+        <b>Normal</b> or <b>Suspicious</b>, along with a calculated risk score.
+    </p>
+</div>
+
+
+<!-- HOW IT WORKS -->
+<div class="mb-5">
+    <h4>⚙️ How It Works</h4>
+
+    <div class="row mt-3">
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <h6>1. Input Data</h6>
+                <p class="text-muted small">User enters activity metrics</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <h6>2. ML Model</h6>
+                <p class="text-muted small">Random Forest predicts behavior</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <h6>3. Risk Score</h6>
+                <p class="text-muted small">Calculates probability & level</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <h6>4. Admin Action</h6>
+                <p class="text-muted small">Block or monitor user</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- FEATURES -->
+<div class="mb-5">
+    <h4>🚀 Key Features</h4>
+
+    <ul class="text-muted">
+        <li>User & Admin authentication system</li>
+        <li>Behavior-based threat prediction</li>
+        <li>Risk score & classification (Low, Medium, High)</li>
+        <li>Admin dashboard with user control</li>
+        <li>Real-time alerts for high-risk users</li>
+        <li>Prediction history tracking</li>
+    </ul>
+</div>
+
+
+<!-- SYSTEM FLOW -->
+<div class="mb-5">
+    <h4>🔄 System Workflow</h4>
+
+    <div class="border rounded p-3 bg-light">
+        <p class="mb-1"><b>User Input → ML Prediction → Risk Score → Store in Database → Admin Notification → Action</b></p>
+    </div>
+</div>
+
+
+<!-- TECH STACK -->
+<div>
+    <h4>🛠️ Technologies Used</h4>
+
+    <div class="row mt-3">
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <b>Frontend</b>
+                <p class="small text-muted">HTML, CSS, Bootstrap</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <b>Backend</b>
+                <p class="small text-muted">Flask (Python)</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <b>Database</b>
+                <p class="small text-muted">MySQL</p>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="border rounded p-3 text-center">
+                <b>ML Model</b>
+                <p class="small text-muted">Random Forest</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

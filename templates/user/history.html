@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+/* HEADER */
+.page-header h3 {
+    font-weight: 600;
+}
+
+.page-header p {
+    font-size: 14px;
+}
+
+/* CARD CONTAINER */
+.history-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+}
+
+/* TABLE STYLE */
+.table {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* ROW HOVER */
+.table tbody tr:hover {
+    background-color: #f7f9fc;
+    transition: 0.2s;
+}
+
+/* BADGES */
+.badge {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 20px;
+}
+
+/* SCORE STYLE */
+.score {
+    font-weight: 600;
+    color: #333;
+}
+
+/* EMPTY STATE */
+.empty-box {
+    text-align: center;
+    padding: 40px;
+    color: #999;
+}
+
+</style>
+
+
+<!-- HEADER -->
+<div class="page-header mb-4">
+    <h3>📊 Prediction History</h3>
+    <p class="text-muted">Track your past activity and risk analysis over time</p>
+</div>
+
+
+<!-- CARD -->
+<div class="history-card">
+
+    {% if data %}
+    <div class="table-responsive">
+        <table class="table align-middle">
+
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Input</th>
+                    <th>Prediction</th>
+                    <th>Score</th>
+                    <th>Risk Level</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+
+            <tbody class="text-center">
+
+            {% for row in data %}
+            <tr>
+                <td>{{ row.input_data }}</td>
+
+                <td class="fw-semibold">
+                    {{ row.prediction }}
+                </td>
+
+                <td class="score">
+                    {{ row.risk_score }}
+                </td>
+
+                <td>
+                    {% if row.risk_level == 'High' %}
+                        <span class="badge bg-danger">High Risk</span>
+                    {% elif row.risk_level == 'Medium' %}
+                        <span class="badge bg-warning text-dark">Medium</span>
+                    {% else %}
+                        <span class="badge bg-success">Low</span>
+                    {% endif %}
+                </td>
+
+                <td class="text-muted">
+                    {{ row.timestamp }}
+                </td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+    {% else %}
+    <!-- EMPTY STATE -->
+    <div class="empty-box">
+        <h5>No Records Yet</h5>
+        <p>Your predictions will appear here once you start using the system.</p>
+        <a href="/user/prediction" class="btn btn-primary mt-2">
+            Make First Prediction
+        </a>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

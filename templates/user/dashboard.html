@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+/* HEADER */
+.dashboard-header h3 {
+    font-weight: 600;
+}
+
+.dashboard-header p {
+    font-size: 14px;
+}
+
+/* CARD STYLE */
+.dashboard-card {
+    border-radius: 18px;
+    padding: 25px;
+    background: linear-gradient(145deg, #ffffff, #f3f6f9);
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* HOVER EFFECT */
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+/* ICON STYLE */
+.card-icon {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+/* BUTTON STYLE */
+.btn-modern {
+    border-radius: 25px;
+    font-weight: 500;
+    padding: 10px;
+}
+
+/* SUBTLE BACKGROUND EFFECT */
+.dashboard-card::before {
+    content: "";
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background: rgba(0,0,0,0.03);
+    border-radius: 50%;
+    top: -30px;
+    right: -30px;
+}
+</style>
+
+
+<!-- HEADER -->
+<div class="dashboard-header mb-4">
+    <h3>Welcome back, {{ session['user_id'] }}</h3>
+    <p class="text-muted">Track your activity and monitor risk behavior in real-time</p>
+</div>
+
+
+<!-- MAIN GRID -->
+<div class="row g-4">
+
+    <!-- PREDICTION CARD -->
+    <div class="col-md-6">
+        <div class="dashboard-card h-100">
+
+            <div>
+                <div class="card-icon">📊</div>
+
+                <h5 class="fw-semibold">Behavior Prediction</h5>
+
+                <p class="text-muted mb-3">
+                    Analyze your behavior patterns and detect potential risks instantly using AI.
+                </p>
+            </div>
+
+            <a href="/user/prediction" 
+               class="btn btn-primary btn-modern w-100">
+               Run Prediction
+            </a>
+
+        </div>
+    </div>
+
+
+    <!-- HISTORY CARD -->
+    <div class="col-md-6">
+        <div class="dashboard-card h-100">
+
+            <div>
+                <div class="card-icon">📁</div>
+
+                <h5 class="fw-semibold">Activity History</h5>
+
+                <p class="text-muted mb-3">
+                    Review your past predictions, risk scores, and behavioral insights over time.
+                </p>
+            </div>
+
+            <a href="/user/history" 
+               class="btn btn-dark btn-modern w-100">
+               View History
+            </a>
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

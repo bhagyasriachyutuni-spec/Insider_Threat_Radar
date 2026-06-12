@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 90vh;">
+
+    <div class="card shadow-lg p-4" style="width: 420px; border-radius: 15px;">
+
+        <h3 class="text-center mb-3" style="font-weight: 600; color: #333;">
+            Create Account
+        </h3>
+
+        <p class="text-center text-muted mb-4" style="font-size: 14px;">
+            Register to access the Threat Detection System
+        </p>
+
+        <form method="POST" onsubmit="return validateForm()">
+
+            <!-- USER ID -->
+            <div class="mb-3">
+                <label class="form-label">User ID</label>
+                <input name="id" placeholder="Enter User ID"
+                       class="form-control rounded-pill px-3 py-2" required>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input id="email" name="email" placeholder="Enter Email"
+                       class="form-control rounded-pill px-3 py-2" required>
+
+                <small id="emailError" class="text-danger d-none">
+                    Only @savantis.com emails are allowed
+                </small>
+            </div>
+
+            <!-- PASSWORD -->
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input id="password" name="password" type="password"
+                       placeholder="Enter Password"
+                       class="form-control rounded-pill px-3 py-2" required>
+            </div>
+
+            <!-- HIDDEN PATTERN -->
+            <input type="hidden" name="pattern" id="pattern">
+
+            <hr>
+
+            <!-- SECURITY QUESTION -->
+            <div class="mb-3">
+                <label class="form-label">Security Question</label>
+                <input name="question" placeholder="e.g. Your first school?"
+                       class="form-control rounded-pill px-3 py-2" required>
+            </div>
+
+            <!-- ANSWER -->
+            <div class="mb-3">
+                <label class="form-label">Answer</label>
+                <input name="answer" placeholder="Enter Answer"
+                       class="form-control rounded-pill px-3 py-2" required>
+            </div>
+
+            <button class="btn w-100 mt-3"
+                    style="background: linear-gradient(90deg, #28a745, #20c997);
+                           color: white;
+                           border-radius: 25px;
+                           padding: 10px;
+                           font-weight: 500;
+                           border: none;">
+                Register
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+// ================= EMAIL VALIDATION =================
+const emailInput = document.getElementById("email");
+const emailError = document.getElementById("emailError");
+
+// Real-time validation
+emailInput.addEventListener("input", function() {
+    if (!emailInput.value.endsWith("@savantis.com")) {
+        emailError.classList.remove("d-none");
+    } else {
+        emailError.classList.add("d-none");
+    }
+});
+
+// Final validation
+function validateEmail() {
+    let email = emailInput.value.trim();
+
+    if (!email.endsWith("@savantis.com")) {
+        emailError.classList.remove("d-none");
+        alert("❌ Invalid Email! Only @savantis.com allowed.");
+        return false;
+    }
+
+    return true;
+}
+
+
+// ================= KEYSTROKE DYNAMICS =================
+let keyDownTimes = {};
+let pattern = [];
+
+// Capture key press start time
+document.getElementById("password").addEventListener("keydown", function(e) {
+    keyDownTimes[e.key] = new Date().getTime();
+});
+
+// Capture key release + calculate hold time
+document.getElementById("password").addEventListener("keyup", function(e) {
+    let keyUpTime = new Date().getTime();
+
+    if (keyDownTimes[e.key]) {
+        let holdTime = keyUpTime - keyDownTimes[e.key];
+
+        pattern.push({
+            key: e.key,
+            hold: holdTime,
+            time: keyUpTime
+        });
+    }
+});
+
+// Save pattern before submit
+function savePattern() {
+    document.getElementById("pattern").value = JSON.stringify(pattern);
+}
+
+
+// ================= FINAL FORM VALIDATION =================
+function validateForm() {
+
+    // Email check
+    if (!validateEmail()) {
+        return false;
+    }
+
+    // Pattern check (important for ML)
+    if (pattern.length < 3) {
+        alert("⚠️ Please type password naturally for behavior tracking.");
+        return false;
+    }
+
+    savePattern();
+    return true;
+}
+
+</script>
+
+{% endblock %}
